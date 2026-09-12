@@ -40,3 +40,7 @@ export default Database.getInstance();
 // const db = Database.getInstance();
 // db.connect().then(() => console.log("Connected to the database!")).catch(err => console.error(err));
 
+
+
+
+
