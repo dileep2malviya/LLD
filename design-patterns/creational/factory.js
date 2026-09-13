@@ -31,31 +31,51 @@ database.connect();
 
 // --------------------------------------------------------
 
-class UpiPayment {
+
+class Payment{
+    payment(){
+        throw new Error("createPayment() must be implemented");
+    }
+}
+
+class UpiPayment extends Payment {
     payment() {
         console.log("Processing UPI payment...");
     }
 }
 
-class CreditCardPayment {
+class CreditCard extends Payment {
     payment() {
         console.log("Processing Credit Card payment...");
     }
 }
 
 class PaymentFactory {
-    static createPayment(type){
-        switch (type) {
-            case "upi":
-                return new UpiPayment();
-            case "creditcard":
-                return new CreditCardPayment();
-            default:
-                throw new Error("Unsupported payment type");
-        }
+    createPayment(){
+        throw new Error("createPayment() must be implemented");
     }
 }
 
-const paymentType = "upi";
-const payment = PaymentFactory.createPayment(paymentType);
-payment.payment();
+class UpiPaymentFactory extends PaymentFactory{
+    createPayment(){
+        return new UpiPayment() 
+    }
+}
+
+class CreditCardPaymentFactory extends PaymentFactory{
+    createPayment(){
+        return new CreditCard() 
+    }
+}
+
+
+class Application{
+    paymntProcess(factory){
+        const payment = factory.createPayment()
+        return payment.payment()
+    }
+}
+
+const app = new Application()
+const creditFactory = new CreditCardPaymentFactory()
+app.paymntProcess(creditFactory)
